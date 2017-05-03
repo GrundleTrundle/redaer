@@ -27,12 +27,12 @@ Surprisingly clean to do with just channels and routines.
 Limitations
 ===========
 
-   - It's only built for my simplistic workflow - run it once in the morning, and check out the new articles, 
-     without having to click through N pages manually.
+- It's only built for my simplistic workflow - run it once in the morning, and check out the new articles, 
+  without having to click through N pages manually.
 
-   - It ignores content summaries. I just want the links.
+- It ignores content summaries. I just want the links.
 
-   - It's using the standard library XML parser to parse HTML.  This means it will barf
-     on some web pages where there's javascript before any links that reference the feed URL.
-     I'll update it to use the x/net/html package at some point, since it's breaking a couple of links
-     I want feeds for.
+- It's using the standard library XML parser to parse HTML.  This means it will barf
+  on some web pages where there's javascript before any links that reference the feed URL.
+  I'll update it to use the x/net/html package at some point, since it's breaking a couple of links
+  I want feeds for.
