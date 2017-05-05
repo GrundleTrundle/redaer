@@ -32,7 +32,5 @@ Limitations
 
    - It ignores content summaries. I just want the links.
 
-   - It's using the standard library XML parser to parse HTML.  This means it will barf
-     on some web pages where there's javascript before any links that reference the feed URL.
-     I'll update it to use the x/net/html package at some point, since it's breaking a couple of links
-     I want feeds for.
+   - No timeout on the concurrent feed updates, so it can still take a while if
+     just one site is having really slow responses.
