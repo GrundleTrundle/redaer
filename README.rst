@@ -27,10 +27,10 @@ Surprisingly clean to do with just channels and routines.
 Limitations
 ===========
 
-   - It's only built for my simplistic workflow - run it once in the morning, and check out the new articles, 
-     without having to click through N pages manually.
+- It's only built for my simplistic workflow - run it once in the morning, and check out the new articles, 
+  without having to click through N pages manually.
 
-   - It ignores content summaries. I just want the links.
+- It ignores content summaries. I just want the links.
 
-   - No timeout on the concurrent feed updates, so it can still take a while if
-     just one site is having really slow responses.
+- No timeout on the concurrent feed updates, so it can still take a while if
+  just one site is having really slow responses.
