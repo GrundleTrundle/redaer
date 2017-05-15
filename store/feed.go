@@ -102,18 +102,28 @@ func checkForFeedUrl(client *http.Client, baseUrl string, link links.Link) (url 
 	return "", false
 }
 
-func makeFeedRequest(client *http.Client, baseUrl, reqUrl string) (*http.Response, error) {
-	reqU, err := url.Parse(reqUrl)
+// If maybeRel is relative, 
+func forceAbsolute(base, maybeRel string) (string, error) {
+	maybeRelU, err := url.Parse(maybeRel)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
-	baseU, err := url.Parse(baseUrl)
+	baseU, err := url.Parse(base)
+	if err != nil {
+		return "", err
+	}
+
+	actualU := baseU.ResolveReference(maybeRelU)
+	return actualU.String(), nil
+}
+
+func makeFeedRequest(client *http.Client, baseUrl, reqUrl string) (*http.Response, error) {
+	absU, err := forceAbsolute(baseUrl, reqUrl)
 	if err != nil {
 		return nil, err
 	}
 
-	actualU := baseU.ResolveReference(reqU)
-	resp, err := client.Get(actualU.String())
+	resp, err := client.Get(absU)
 	if err != nil {
 		return nil, err
 	}
@@ -205,6 +215,18 @@ func checkForArticles(client *http.Client, link *LinkDetails) {
 			if len(link.Articles) > 1 {
 				sort.Sort(link.Articles)
 			}
+			// Guard against relative urls in links.
+			for i, art := range link.Articles {
+				url, err := forceAbsolute(link.BaseUrl, art.Url)
+				if err == nil {
+					link.Articles[i].Url = url
+ 				} else {
+					link.ErrorOccurred(err)
+					link.Articles = make([]Article, 0)
+					return
+				}
+			}
+
 			// Only update this when we succeeded.
 			link.LastChecked = moment
 		} else {
